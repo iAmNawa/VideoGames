@@ -1,6 +1,7 @@
 var canvas;
 var canvasContext;
 var ballX = 50;
+var ballSpeedX = 5;
 
 window.onload = function() {
   canvas = document.getElementById('gameCanvas');
@@ -14,7 +15,13 @@ window.onload = function() {
 }
 
 function moveEverything() {
-  ballX = ballX + .5;
+  ballX = ballX + ballSpeedX;
+  if (ballX > canvas.width) {
+    ballSpeedX = -ballSpeedX;
+  }
+  if (ballX < 0) {
+    ballSpeedX = -ballSpeedX;
+  }
 }
 
 function drawEverything() {
