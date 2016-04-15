@@ -27,6 +27,14 @@ function calculateMousePos(evt) {
   };
 }
 
+function handleMouseClick(evt) {
+  if(showingWinScreen) {
+    player1Score = 0;
+    player2Score = 0;
+    showingWinScreen = false;
+  }
+}
+
 //loading the canvas
 window.onload = function() {
   canvas = document.getElementById('gameCanvas');
@@ -38,6 +46,8 @@ window.onload = function() {
     drawEverything();
   }, 1000/framesPerSecond);
 
+  canvas.addEventListener('mousedown', handleMouseClick);
+
   canvas.addEventListener('mousemove',
     function(evt) {
       var mousePos = calculateMousePos(evt);
@@ -47,8 +57,8 @@ window.onload = function() {
 //ball reset function
 function ballReset() {
   if (player1Score >= WINNING_SCORE || player2Score >= WINNING_SCORE) {
-    player1Score = 0;
-    player2Score = 0;
+    //player1Score = 0;
+    //player2Score = 0;
     showingWinScreen = true;
   }
   ballSpeedX = -ballSpeedX;
@@ -116,16 +126,30 @@ function moveEverything() {
   }
 }
 
+function drawNet() {
+  for (var i = 0; i < canvas.height; i += 40) {
+    colorRect(canvas.width/2-1,i,2,20, 'white');
+  }
+}
+
 function drawEverything() {
   // blanks out canvas with black
   colorRect(0,0,canvas.width,canvas.height,'black');
   //displays a winner
+
   if (showingWinScreen) {
     canvasContext.fillStyle = "white";
-    canvasContext.fillText("Someone can win",100,100);
+     if (player1Score >= WINNING_SCORE) {
+       canvasContext.fillText("You won",350,200);
+     } else if (player2Score >= WINNING_SCORE) {
+       canvasContext.fillText("Siri won",350,200);
+
+     }
+
+    canvasContext.fillText("Click to continue",350,500);
     return;
   }
-
+   drawNet();
   //left player paddle
   colorRect(0,paddle1Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');
   //right player paddle
