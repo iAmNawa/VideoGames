@@ -4,15 +4,15 @@ var ballX = 50;
 var ballSpeedX = 10;
 var ballY = 50;
 var ballSpeedY = 4;
-
+//player scores
 var player1Score = 0;
 var player2Score = 0;
-
+//paddle starting positions and height
 var paddle1Y = 250;
 var paddle2Y = 250;
 const PADDLE_THICKNESS = 10;
-const PADDLE_HEIGHT = 250;
-
+const PADDLE_HEIGHT = 100;
+//calculating mouse position
 function calculateMousePos(evt) {
   var rect = canvas.getBoundingClientRect();
   var root = document.documentElement;
@@ -24,7 +24,7 @@ function calculateMousePos(evt) {
   };
 }
 
-
+//loading the canvas
 window.onload = function() {
   canvas = document.getElementById('gameCanvas');
   canvasContext = canvas.getContext('2d');
@@ -41,7 +41,7 @@ window.onload = function() {
       paddle1Y = mousePos.y-(PADDLE_HEIGHT/2);
     })
 }
-
+//ball reset function
 function ballReset() {
   ballSpeedX = -ballSpeedX;
   ballX = canvas.width/2;
@@ -56,8 +56,19 @@ function computerMovement() {
   paddle2Y -= 6;
 }
 }
+
+function computerMovement2() {
+  var paddle1YCenter = paddle1Y + (PADDLE_HEIGHT/2);
+  if (paddle1YCenter < ballY-35) {
+    paddle1Y += 6;
+} else if (paddle1YCenter > ballY+35){
+  paddle1Y -= 6;
+}
+}
+
 function moveEverything() {
   computerMovement();
+  computerMovement2();
 
   ballX += ballSpeedX;
   ballY += ballSpeedY;
